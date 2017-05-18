@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	This configuration file must be copied to location config.xml
+ -->
+
+<configuration>
+
+	<server>https://webpay.sveaekonomi.se</server>
+	<merchantId>NNNNN</merchantId>
+	
+	<!-- Below secret word is Svea's test secret word. Replace with real -->
+	
+	<secretWord>df74ce933f1d367d4100b4d34ad6970760c6040e13d49b94b36bd81239c2c3a724435ab5dc4e1065c86
+1944f9a1e56fa1f53f1cd22d71564e69d5256fba24d43</secretWord>
+
+</configuration>

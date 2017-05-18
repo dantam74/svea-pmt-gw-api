@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	This configuration file must be copied to location config.xml
+ -->
+
+<configuration>
+
+	<server>https://webpay.sveaekonomi.se</server>
+	<merchantId>NNNNN</merchantId>
+	
+	<!-- Below secret word is Svea's test secret word. -->
+	
+	<secretWord>df74ce933f1d367d4100b4d34ad6970760c6040e13d49b94b36bd81239c2c3a724435ab5dc4e1065c86
+1944f9a1e56fa1f53f1cd22d71564e69d5256fba24d43</secretWord>
+
+	<!-- Only for JUnit tests -->
+	<base64message>
+		PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPHBheW1lbnQ+IDxwYXltZW50bWV
+		0aG9kPkRCTk9SREVBU0U8L3BheW1lbnRtZXRob2Q+PGN1cnJlbmN5PlNFSzwvY3VycmVuY3k+ID
+		xyZXR1cm51cmw+aHR0cHM6Ly90ZXN0LnN2ZWFla29ub21pLnNlL3dlYnBheS1hZG1pbi9hZG1pbi9t
+		ZXJjaGFudHJlc3BvbnNldGVzdC54aHRtbDwvcmV0dXJudXJsPiA8YW1vdW50PjUwMDAxPC9hbW91
+		bnQ+PGN1c3RvbWVycmVmbm8+dGVzdGluZ25yZ2xramhob2hqZjwvY3VzdG9tZXJyZWZubz4gPC9
+		wYXltZW50Pg==
+	</base64message>
+
+</configuration>

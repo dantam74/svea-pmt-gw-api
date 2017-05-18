@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payment>
+<paymentmethod>DBNORDEASE</paymentmethod><currency>SEK</currency>
+<returnurl>https://test.sveaekonomi.se/webpay-
+admin/admin/merchantresponsetest.xhtml</returnurl>
+<amount>50001</amount><customerrefno>testingnrglkjhhohjf</customerrefno>
+</payment>
