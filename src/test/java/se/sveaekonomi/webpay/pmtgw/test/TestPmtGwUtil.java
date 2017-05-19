@@ -48,9 +48,6 @@ public class TestPmtGwUtil {
 			message = str.toString();
 		}
 		
-		System.out.println("Message:\n" + message);
-		System.out.println("Secret word:\n" + secretWord);
-		
 	}
 
 	@After
@@ -60,14 +57,22 @@ public class TestPmtGwUtil {
 	@Test
 	public void testBase64encodeMsg() {
 		baseEncodedMessage = PmtGwUtil.base64encodeMsg(message);
-		System.out.println("Base64 of test message: " + baseEncodedMessage);
-		// fail("Not yet implemented");
+		System.out.println("Base64 of examples-xml-message: ");
+		System.out.println(baseEncodedMessage);
 	}
+	
+	@Test
+	public void testBase64decodeMsg() {
+		String baseDecodedMessage = PmtGwUtil.base64decodeMsg(base64message);
+		System.out.println("Base64decoded sample message: ");
+		System.out.println(baseDecodedMessage);
+	}
+	
 	
 	@Test
 	public void testCalculateMac() {
 		try {
-			String mac = PmtGwUtil.calculateMac(baseEncodedMessage, secretWord);
+			String mac = PmtGwUtil.calculateMac(base64message, secretWord);
 			System.out.println("Mac: " + mac);
 		} catch (Exception e) {
 			

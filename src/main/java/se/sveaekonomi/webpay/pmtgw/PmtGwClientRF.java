@@ -25,6 +25,7 @@ public class PmtGwClientRF {
 	private String serverName;
 	
 	private	Retrofit	retroFit = null;
+	private PmtGwService service = null;
 	
 	/**
 	 * Initializes client
@@ -44,27 +45,35 @@ public class PmtGwClientRF {
 				// .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.addConverterFactory(converter)
 				.build();
+
+		service = retroFit.create(PmtGwService.class);		
 		
 	}
 	
+	/**
+	 * Get reconciliation report
+	 * 
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 * @throws IOException
+	 */
+	public String getPaymentMethods() throws IOException {
 	
-	public String getReconcilationReport(Date fromDate, Date toDate) throws IOException {
-	
-		PmtGwService service = retroFit.create(PmtGwService.class);
-		
 		String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" 
-						+"<getreconciliationreport>\n" +
-						"<fromdate>" + dfmt.format(fromDate) + "</fromdate>\n" + 
-						"<todate>" + dfmt.format(toDate) + "</todate>\n" + 
-						"</getreconcilationreport>";
+						+"<getpaymentmethods>\n" +
+						"<merchantid>" + merchantId + "</merchantid>\n" + 
+						"</getpaymentmethods>";
 
+		String base64msg = PmtGwUtil.base64encodeMsg(message);
 		
+		String mac = PmtGwUtil.calculateMac(base64msg, secretWord); 
 		
-		Call<ResponseBody> call = service.getReconciliationReport(
+		Call<ResponseBody> call = service.getPaymentMethods(
 				merchantId, 
-				message, 
-				PmtGwUtil.calculateMac(message, secretWord));
-
+				base64msg, 
+				mac);
+		
 		Response<ResponseBody> result = call.execute();
 		
 		String resultMsg = null;
@@ -82,6 +91,43 @@ public class PmtGwClientRF {
 		return resultMsg;
 		
 	}
+	
+	public String getReconcilationReport(Date fromDate, Date toDate) throws IOException {
+		
+		
+		String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" 
+						+"<getreconciliationreport>\n" +
+						"<fromdate>" + dfmt.format(fromDate) + "</fromdate>\n" + 
+						"<todate>" + dfmt.format(toDate) + "</todate>\n" + 
+						"</getreconcilationreport>";
+
+		String base64msg = PmtGwUtil.base64encodeMsg(message);
+		
+		String mac = PmtGwUtil.calculateMac(base64msg, secretWord); 
+		
+		Call<ResponseBody> call = service.getReconciliationReport(
+				merchantId, 
+				base64msg, 
+				mac);
+		
+		Response<ResponseBody> result = call.execute();
+		
+		String resultMsg = null;
+		
+		clientLog.debug(result.message());
+		clientLog.debug(result.raw().toString());
+		
+		if (result.errorBody()!=null) {
+			clientLog.debug(result.errorBody().string());
+			resultMsg = result.errorBody().string();
+		} else {
+			resultMsg = result.message();	
+		}
+		
+		return resultMsg;
+		
+	}
+	
 	
 	
 }
