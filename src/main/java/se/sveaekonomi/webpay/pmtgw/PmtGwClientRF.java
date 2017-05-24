@@ -1,12 +1,16 @@
 package se.sveaekonomi.webpay.pmtgw;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
 
+import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.slf4j.Logger;
 
 import retrofit2.Call;
@@ -24,8 +28,46 @@ public class PmtGwClientRF {
 	private String secretWord;
 	private String serverName;
 	
+	
+	private Configurations configs = new Configurations();
+	
 	private	Retrofit	retroFit = null;
 	private PmtGwService service = null;
+
+	
+	public void loadConfig(String configfile) throws Exception {
+
+		URL url = null;
+		
+		// Try absolute path first
+		File cf = new File(configfile);
+		if (!cf.exists()) {
+			// Try read as resource
+			url = ClassLoader.getSystemResource(configfile);
+		} else {
+			url = new URL(cf.getAbsolutePath());
+		}
+
+		if (url==null) {
+			System.out.println("Can't find configfile: " + configfile);
+			System.exit(-1);
+		}
+		
+		XMLConfiguration fc = configs.xml(url);
+		
+		serverName = fc.getString("server");
+		merchantId = fc.getString("merchantId");
+		secretWord = fc.getString("secretWord");
+		
+	}	
+	
+	/**
+	 * Initializes client with current values. loadConfig must have been called before.
+	 * 
+	 */
+	public void init() {
+		init(serverName, merchantId, secretWord);
+	}
 	
 	/**
 	 * Initializes client
@@ -67,7 +109,15 @@ public class PmtGwClientRF {
 
 		String base64msg = PmtGwUtil.base64encodeMsg(message);
 		
-		String mac = PmtGwUtil.calculateMac(base64msg, secretWord); 
+		
+		String mac = PmtGwUtil.calculateMac(base64msg, secretWord);
+		
+		if (clientLog.isDebugEnabled()) {
+			clientLog.debug("Message in plain xml: \n" + message);
+			clientLog.debug("MerchantID : " + merchantId);
+			clientLog.debug("Message in base64: \n" + base64msg);
+			clientLog.debug("SHA512 digest: " + mac);
+		}
 		
 		Call<ResponseBody> call = service.getPaymentMethods(
 				merchantId, 

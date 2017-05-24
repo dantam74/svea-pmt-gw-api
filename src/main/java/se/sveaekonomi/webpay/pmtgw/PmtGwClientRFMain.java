@@ -1,48 +1,12 @@
 package se.sveaekonomi.webpay.pmtgw;
 
-import java.io.File;
-import java.net.URL;
-
-import org.apache.commons.configuration2.XMLConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-
 
 public class PmtGwClientRFMain {
 
-	private Configurations configs = new Configurations();
-
 	private java.util.Date fromDate = null;
 	private java.util.Date untilDate = null;
+	private String configFile = null;
 	
-	private String 	server;
-	private String 	merchantId;
-	private String	secretWord;
-	
-	public void loadConfig(String configfile) throws Exception {
-
-		URL url = null;
-		
-		// Try absolute path first
-		File cf = new File(configfile);
-		if (!cf.exists()) {
-			// Try read as resource
-			url = ClassLoader.getSystemResource(configfile);
-		} else {
-			url = new URL(cf.getAbsolutePath());
-		}
-
-		if (url==null) {
-			System.out.println("Can't find configfile: " + configfile);
-			System.exit(-1);
-		}
-		
-		XMLConfiguration fc = configs.xml(url);
-		
-		server = fc.getString("server");
-		merchantId = fc.getString("merchantId");
-		secretWord = fc.getString("secretWord");
-		
-	}	
 	
 	public void printHelp() {
 		
@@ -54,7 +18,9 @@ public class PmtGwClientRFMain {
 	public StringBuffer runQuery() throws Exception {
 		
 		PmtGwClientRF client = new PmtGwClientRF();
-		client.init(server, merchantId, secretWord);
+
+		client.loadConfig(configFile);
+		client.init();
 		// StringBuffer result = new StringBuffer(client.getReconcilationReport(fromDate, untilDate));
 		StringBuffer result = new StringBuffer(client.getPaymentMethods());
 		return result;
@@ -72,7 +38,7 @@ public class PmtGwClientRFMain {
 		try {
 		
 			if (args.length>0) {
-				main.loadConfig(args[0]);
+				main.configFile = args[0];
 			}
 			
 			if (args.length>1) {

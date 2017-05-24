@@ -1,6 +1,6 @@
 package se.sveaekonomi.webpay.pmtgw.test;
 
-// import static org.junit.Assert.fail;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.sveaekonomi.webpay.pmtgw.PmtGwClientRF;
 import se.sveaekonomi.webpay.pmtgw.PmtGwUtil;
 
 public class TestPmtGwUtil {
@@ -54,14 +55,14 @@ public class TestPmtGwUtil {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+//	@Test
 	public void testBase64encodeMsg() {
 		baseEncodedMessage = PmtGwUtil.base64encodeMsg(message);
 		System.out.println("Base64 of examples-xml-message: ");
 		System.out.println(baseEncodedMessage);
 	}
 	
-	@Test
+//	@Test
 	public void testBase64decodeMsg() {
 		String baseDecodedMessage = PmtGwUtil.base64decodeMsg(base64message);
 		System.out.println("Base64decoded sample message: ");
@@ -77,6 +78,25 @@ public class TestPmtGwUtil {
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	@Test
+	public void testGetPaymentMethods() {
+
+		PmtGwClientRF client = new PmtGwClientRF();
+		try {
+		
+			client.loadConfig("config-test.xml");
+			client.init();
+			System.out.println("getPaymentMethods: " + client.getPaymentMethods());
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			fail(e.getMessage());
+			
+		}
+		
 	}
 		
 
