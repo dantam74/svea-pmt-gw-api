@@ -55,19 +55,22 @@ public class TestPmtGwUtil {
 	public void tearDown() throws Exception {
 	}
 
-//	@Test
+	@Test
+	public void testBase64decodeMsg() {
+		String baseDecodedMessage = PmtGwUtil.base64decodeMsg(base64message);
+		System.out.println("Base64decoded sample message: ");
+		System.out.println(baseDecodedMessage);
+		message = baseDecodedMessage;
+	}
+	
+	
+	@Test
 	public void testBase64encodeMsg() {
 		baseEncodedMessage = PmtGwUtil.base64encodeMsg(message);
 		System.out.println("Base64 of examples-xml-message: ");
 		System.out.println(baseEncodedMessage);
 	}
 	
-//	@Test
-	public void testBase64decodeMsg() {
-		String baseDecodedMessage = PmtGwUtil.base64decodeMsg(base64message);
-		System.out.println("Base64decoded sample message: ");
-		System.out.println(baseDecodedMessage);
-	}
 	
 	
 	@Test

@@ -20,10 +20,8 @@ public class PmtGwUtil {
 
 		String combined = message + secretWord;
 		String result = null;
-		String salt = Integer.toHexString((int)Math.round(Math.random()*10000));
 	    try {
 	         MessageDigest md = MessageDigest.getInstance("SHA-512");
-	         // md.update(salt.getBytes("UTF-8"));
 	         byte[] bytes = md.digest(combined.getBytes("UTF-8"));
 	         StringBuilder sb = new StringBuilder();
 	         for(int i=0; i< bytes.length ;i++){

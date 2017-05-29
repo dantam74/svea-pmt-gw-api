@@ -113,6 +113,7 @@ public class PmtGwClientRF {
 		String mac = PmtGwUtil.calculateMac(base64msg, secretWord);
 		
 		if (clientLog.isDebugEnabled()) {
+			clientLog.debug("Server: " + serverName);
 			clientLog.debug("Message in plain xml: \n" + message);
 			clientLog.debug("MerchantID : " + merchantId);
 			clientLog.debug("Message in base64: \n" + base64msg);
@@ -126,16 +127,18 @@ public class PmtGwClientRF {
 		
 		Response<ResponseBody> result = call.execute();
 		
-		String resultMsg = null;
+		String resultMsg = null; 
 		
-		clientLog.debug(result.message());
-		clientLog.debug(result.raw().toString());
 		
+
 		if (result.errorBody()!=null) {
 			clientLog.debug(result.errorBody().string());
 			resultMsg = result.errorBody().string();
 		} else {
-			resultMsg = result.message();	
+			resultMsg = result.body().string();
+			clientLog.debug(result.message());
+			clientLog.debug(resultMsg);
+			clientLog.debug(result.raw().toString());
 		}
 		
 		return resultMsg;
