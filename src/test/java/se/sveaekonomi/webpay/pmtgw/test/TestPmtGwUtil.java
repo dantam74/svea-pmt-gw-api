@@ -71,8 +71,6 @@ public class TestPmtGwUtil {
 		System.out.println(baseEncodedMessage);
 	}
 	
-	
-	
 	@Test
 	public void testCalculateMac() {
 		try {

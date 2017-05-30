@@ -1,5 +1,7 @@
 package se.sveaekonomi.webpay.pmtgw;
 
+import se.sveaekonomi.webpay.pmtgw.entity.PmtGwResponse;
+
 
 public class PmtGwClientRFMain {
 
@@ -15,15 +17,17 @@ public class PmtGwClientRFMain {
 		
 	}
 	
-	public StringBuffer runQuery() throws Exception {
+	public PmtGwResponse runQuery() throws Exception {
 		
 		PmtGwClientRF client = new PmtGwClientRF();
 
 		client.loadConfig(configFile);
 		client.init();
-		// StringBuffer result = new StringBuffer(client.getReconcilationReport(fromDate, untilDate));
-		StringBuffer result = new StringBuffer(client.getPaymentMethods());
-		return result;
+		StringBuffer result = new StringBuffer(client.getReconcilationReport(fromDate, untilDate));
+		
+		PmtGwResponse r = PmtGwUtil.parseBase64Response(result.toString());
+		
+		return r;
 	}
 	
 	
@@ -54,7 +58,7 @@ public class PmtGwClientRFMain {
 			if (main.untilDate==null)
 				main.untilDate = main.fromDate;
 
-			StringBuffer result = main.runQuery();
+			PmtGwResponse result = main.runQuery();
 			System.out.println(result.toString());
 			
 		} catch (Exception e) {

@@ -1,9 +1,18 @@
 package se.sveaekonomi.webpay.pmtgw;
 
+import static org.junit.Assert.fail;
+
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+
+import javax.xml.bind.JAXB;
+
+import se.sveaekonomi.webpay.pmtgw.entity.PaymentMethod;
+import se.sveaekonomi.webpay.pmtgw.entity.PmtGwResponse;
+import se.sveaekonomi.webpay.pmtgw.ws.Base64EncodedResponse;
 
 public class PmtGwUtil {
 
@@ -91,6 +100,38 @@ public class PmtGwUtil {
 		buf.append("<input type=\"hidden\" name=\"mac\" value=\"" + mac + "\"/>\n");
 		
 		return buf.toString();
+		
+	}
+	
+	/**
+	 * Converts Svea's response to a PmtGwResponse instance.
+	 * 
+	 * @param xmlResponse
+	 * @return
+	 * @throws Exception
+	 */
+	public static PmtGwResponse parseBase64Response(String xmlResponse) throws Exception {
+		
+		Base64EncodedResponse response = JAXB.unmarshal(new StringReader(xmlResponse), Base64EncodedResponse.class);
+
+		String sveaResponse = null;
+		
+		if (response.getMessage()!=null && response.getMessage().trim().length()>0) {
+			sveaResponse = PmtGwUtil.base64decodeMsg(response.getMessage());
+			
+			// Try to parse response
+			PmtGwResponse r = JAXB.unmarshal(new StringReader(sveaResponse), PmtGwResponse.class);
+			if (r!=null) {
+				r.setRawXml(sveaResponse);
+				return r;
+			} else {
+				r = new PmtGwResponse();
+				r.setRawXml(sveaResponse);
+			}
+		
+		}
+		
+		throw new Exception("Failed to parse response: " + xmlResponse);
 		
 	}
 	

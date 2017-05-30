@@ -128,8 +128,6 @@ public class PmtGwClientRF {
 		Response<ResponseBody> result = call.execute();
 		
 		String resultMsg = null; 
-		
-		
 
 		if (result.errorBody()!=null) {
 			clientLog.debug(result.errorBody().string());
@@ -151,12 +149,20 @@ public class PmtGwClientRF {
 		String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" 
 						+"<getreconciliationreport>\n" +
 						"<fromdate>" + dfmt.format(fromDate) + "</fromdate>\n" + 
-						"<todate>" + dfmt.format(toDate) + "</todate>\n" + 
-						"</getreconcilationreport>";
+						"<todate>" + dfmt.format(toDate) + "</todate>\n" +
+						"</getreconciliationreport>";
 
 		String base64msg = PmtGwUtil.base64encodeMsg(message);
 		
 		String mac = PmtGwUtil.calculateMac(base64msg, secretWord); 
+		
+		if (clientLog.isDebugEnabled()) {
+			clientLog.debug("Server: " + serverName);
+			clientLog.debug("Message in plain xml: \n" + message);
+			clientLog.debug("MerchantID : " + merchantId);
+			clientLog.debug("Message in base64: \n" + base64msg);
+			clientLog.debug("SHA512 digest: " + mac);
+		}
 		
 		Call<ResponseBody> call = service.getReconciliationReport(
 				merchantId, 
@@ -165,16 +171,16 @@ public class PmtGwClientRF {
 		
 		Response<ResponseBody> result = call.execute();
 		
-		String resultMsg = null;
-		
-		clientLog.debug(result.message());
-		clientLog.debug(result.raw().toString());
-		
+		String resultMsg = null; 
+
 		if (result.errorBody()!=null) {
 			clientLog.debug(result.errorBody().string());
 			resultMsg = result.errorBody().string();
 		} else {
-			resultMsg = result.message();	
+			resultMsg = result.body().string();
+			clientLog.debug(result.message());
+			clientLog.debug(resultMsg);
+			clientLog.debug(result.raw().toString());
 		}
 		
 		return resultMsg;
