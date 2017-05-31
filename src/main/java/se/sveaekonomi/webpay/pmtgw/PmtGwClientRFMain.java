@@ -1,6 +1,7 @@
 package se.sveaekonomi.webpay.pmtgw;
 
 import se.sveaekonomi.webpay.pmtgw.entity.PmtGwResponse;
+import se.sveaekonomi.webpay.pmtgw.entity.ReconciliationTransaction;
 
 
 public class PmtGwClientRFMain {
@@ -59,6 +60,13 @@ public class PmtGwClientRFMain {
 				main.untilDate = main.fromDate;
 
 			PmtGwResponse result = main.runQuery();
+			
+			if (result.getReconciliation()!=null) {
+				for (ReconciliationTransaction tr : result.getReconciliation().getReconciliationTransaction()) {
+					System.out.println(tr.getCustomerRefNo());
+				}
+			}
+			
 			System.out.println(result.toString());
 			
 		} catch (Exception e) {

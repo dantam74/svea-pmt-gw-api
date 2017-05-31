@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PmtGwResponse {
 
 	private List<PaymentMethod> paymentMethods = new ArrayList<PaymentMethod>();
+	private Reconciliation reconciliation;
 	private int	statusCode;
 	private String rawXml;
 
@@ -40,6 +41,16 @@ public class PmtGwResponse {
 
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	@XmlElement(name = "reconciliation")
+	public Reconciliation getReconciliation() {
+		return reconciliation;
+	}
+
+	public void setReconciliation(
+			Reconciliation reconciliation) {
+		this.reconciliation = reconciliation;
 	}
 
 	@XmlTransient
