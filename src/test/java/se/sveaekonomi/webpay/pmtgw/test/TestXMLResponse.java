@@ -17,6 +17,7 @@ import org.junit.Test;
 import se.sveaekonomi.webpay.pmtgw.PmtGwUtil;
 import se.sveaekonomi.webpay.pmtgw.entity.PaymentMethod;
 import se.sveaekonomi.webpay.pmtgw.entity.PmtGwResponse;
+import se.sveaekonomi.webpay.pmtgw.entity.ReconciliationTransaction;
 import se.sveaekonomi.webpay.pmtgw.ws.Base64EncodedResponse;
 
 public class TestXMLResponse {
@@ -29,6 +30,44 @@ public class TestXMLResponse {
 	public void tearDown() throws Exception {
 	}
 
+	@Test
+	public void testUnencodedXMLResponse() throws Exception {
+
+		String message = null;
+		
+		URL url2 = ClassLoader.getSystemResource("sample-unencoded-xml-response.xml");
+		
+		if (url2!=null) {
+			// Read file
+			File file = new File(url2.getFile());
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			StringBuffer str = new StringBuffer();
+			String line;
+			while ((line = reader.readLine())!=null) {
+				str.append(line + "\n");
+			}
+			reader.close();
+			message = str.toString();
+		} else {
+			fail("Can't find file sample-unencoded-xml-response.xml in classpath");
+			return;
+		}
+		
+		PmtGwResponse r = JAXB.unmarshal(new StringReader(message), PmtGwResponse.class);
+
+		if (r!=null && r.getReconciliation()!=null) {
+			if (r.getReconciliation().getReconciliationTransaction().size()>0) {
+				for (ReconciliationTransaction t : r.getReconciliation().getReconciliationTransaction()) {
+					System.out.println(t.getCustomerRefNo());
+				}
+			}
+		} else {
+			fail("Failed to parse xml.");
+		}
+		
+	}
+	
+	
 	@Test
 	public void testXMLResponse() throws Exception {
 

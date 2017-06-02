@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Sample response for JUNIT testing. 
+ -->
+
+<response>
+	<reconciliation>
+		<reconciliationtransaction>
+			<transactionid>5555980</transactionid>
+			<customerrefno>20170517144654_XX694</customerrefno>
+			<paymentmethod>SVEACARDPAY_PF</paymentmethod>
+			<amount>104400</amount>
+			<currency>SEK</currency>
+			<time>2017-05-18 01:15:27 CEST</time>
+		</reconciliationtransaction>
+		<reconciliationtransaction>
+			<transactionid>5555588</transactionid>
+			<customerrefno>20170518122221_XX787</customerrefno>
+			<paymentmethod>SVEACARDPAY_PF</paymentmethod>
+			<amount>117160</amount>
+			<currency>SEK</currency>
+			<time>2017-05-19 01:18:40 CEST</time>
+		</reconciliationtransaction>
+		<reconciliationtransaction>
+			<transactionid>5555771</transactionid>
+			<customerrefno>20170521202136_XX845</customerrefno>
+			<paymentmethod>SVEACARDPAY_PF</paymentmethod>
+			<amount>140500</amount>
+			<currency>SEK</currency>
+			<time>2017-05-22 01:14:54 CEST</time>
+		</reconciliationtransaction>
+	</reconciliation>
+	<statuscode>0</statuscode>
+</response>

@@ -1,11 +1,19 @@
 package se.sveaekonomi.webpay.pmtgw.entity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "reconciliationtransaction")
 public class ReconciliationTransaction {
 
+	public static DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+	
 	private String transactionId;
 	private String customerRefNo;
 	private String paymentMethod;
@@ -60,7 +68,16 @@ public class ReconciliationTransaction {
 		this.timeStr = timeStr;
 	}
 	
-	
+	@XmlTransient
+	public Date getTime() throws ParseException {
+		
+		if (timeStr!=null) {
+			return dfmt.parse(timeStr);
+		} else {
+			return null;
+		}
+		
+	}
 	
 	
 }
