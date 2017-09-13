@@ -1,6 +1,5 @@
 package se.sveaekonomi.webpay.pmtgw;
 
-import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -10,7 +9,6 @@ import java.util.Base64;
 
 import javax.xml.bind.JAXB;
 
-import se.sveaekonomi.webpay.pmtgw.entity.PaymentMethod;
 import se.sveaekonomi.webpay.pmtgw.entity.PmtGwResponse;
 import se.sveaekonomi.webpay.pmtgw.ws.Base64EncodedResponse;
 
