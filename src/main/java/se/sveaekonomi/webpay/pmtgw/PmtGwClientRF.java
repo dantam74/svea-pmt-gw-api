@@ -71,6 +71,10 @@ public class PmtGwClientRF {
 	
 	/**
 	 * Initializes client
+	 * 
+	 * @param	serverName		The server to connect to
+	 * @param	merchantId		The merchantID to use
+	 * @param	secretWord		Secret word to use for hashing
 	 */
 	public void init(String serverName, String merchantId, String secretWord) {
 
@@ -95,10 +99,8 @@ public class PmtGwClientRF {
 	/**
 	 * Get reconciliation report
 	 * 
-	 * @param fromDate
-	 * @param toDate
-	 * @return
-	 * @throws IOException
+	 * @return	Available payment methods
+	 * @throws IOException	If something goes wrong
 	 */
 	public String getPaymentMethods() throws IOException {
 	
@@ -143,6 +145,15 @@ public class PmtGwClientRF {
 		
 	}
 	
+	/**
+	 * Gets reconciliation report
+	 * 
+	 * @param fromDate		From date			
+	 * @param toDate		until date
+	 * 
+	 * @return	Reconciliation report
+	 */
+	
 	public String getReconcilationReport(Date fromDate, Date toDate) throws IOException {
 		
 		
@@ -186,7 +197,6 @@ public class PmtGwClientRF {
 		return resultMsg;
 		
 	}
-	
 	
 	
 }
