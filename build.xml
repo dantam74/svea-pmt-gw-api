@@ -8,4 +8,14 @@
 	  	</exec>
 		
     </target>
+	
+	<target name="pmt-gw-api-release">
+		
+	  	<exec dir="${basedir}" executable="bash">
+	  		<arg line="-c 'mvn install -DperformRelease=true -DcreateChecksum=true -DskipTests'"/>
+	  	</exec>
+		
+	</target>
+	
+	
 </project>
